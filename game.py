@@ -14,6 +14,7 @@ class Game:
         self.continuer = True
         self.bg = pygame.image.load(BG_TEXTURE)
         self.map = Map(self)
+        self.coef = 1
     
     def prepare(self):
         pygame.key.set_repeat(1, 0)
@@ -31,7 +32,7 @@ class Game:
 
         # Click Gauche
         if event.type == const.MOUSEBUTTONUP and event.button == 1:
-            pass
+            self.coef += 0.5
 
         # Click Droit
         if event.type == const.KEYDOWN and event.key == const.K_a:

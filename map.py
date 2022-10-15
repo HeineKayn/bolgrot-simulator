@@ -1,55 +1,46 @@
-import pygame
 from pygame.locals import *
-from pygame import Rect
 
 import numpy as np
-from random import randint
-
-debug = False # display map as text
-TILEWIDTH = 64  #holds the tile width and height
-TILEHEIGHT = 64
-TILEHEIGHT_HALF = TILEHEIGHT /2
-TILEWIDTH_HALF = TILEWIDTH /2
+from constantes import *
+from tile import Tile
 
 class Map():
-    def __init__(self,game):
-        self.game = game
-        self.ecran = game.ecran
-        self.tiles = np.array([[0, 0, 1, 1, 0, 0], 
-                             [0, 1, 1, 1, 1, 0],
-                             [0, 1, 1, 1, 1, 0], 
-                             [0, 1, 1, 1, 1, 0], 
-                             [0, 1, 1, 1, 1, 0], 
-                             [0, 0, 1, 1, 0, 0], ])
-        self.tiles_x, self.tiles_y = np.shape(self.tiles)
-        self.wall = pygame.image.load('./ressources/textures/wall.png').convert_alpha()  #load images
-        self.grass = pygame.image.load('./ressources/textures/grass.png').convert_alpha()
+    def __init__(self,ecran):
+        self.ecran = ecran
+        # self.tiles_map = np.array([[0, 0, 1, 1, 0, 0, 1, 1], 
+        #                             [0, 1, 1, 1, 1, 0, 1, 1],
+        #                             [0, 1, 1, 1, 1, 0, 1, 1], 
+        #                             [0, 1, 1, 1, 1, 0, 1, 1],
+        #                             [0, 1, 1, 1, 1, 1, 1, 1], 
+        #                             [0, 1, 1, 1, 1, 1, 1, 1], 
+        #                             [0, 1, 1, 1, 1, 1, 1, 1],  
+        #                             [0, 1, 1, 1, 1, 0, 1, 1], 
+        #                             [0, 0, 1, 1, 0, 0, 1, 1]])
+        self.tiles_map = np.ones((MAP_SIZE,MAP_SIZE))
+        self.tiles = np.empty(np.shape(self.tiles_map), dtype=Tile)
+        print(self.tiles_map)
         
     def reset(self):
         pass
             
-    # garder des infos sur les cases à leur création
-    # placé au bon endroit et bonne taille (en fonction nombre elem)
-    def draw(self):     
+    def create(self):     
+        for row_nb, line in enumerate(self.tiles_map):    
+            for col_nb, tile in enumerate(line):
+                centered_x = self.ecran.get_rect().centerx - ((len(self.tiles_map)/2 - row_nb) * TILEWIDTH)
+                centered_y = self.ecran.get_rect().centery - ((len(line)/2 - col_nb) * TILEHEIGHT_UPPER)
 
-        self.wall = pygame.transform.scale(self.wall, (TILEHEIGHT* self.game.coef,TILEWIDTH* self.game.coef)) 
-
-        for row_nb, row in enumerate(self.tiles):    #for every row of the map...
-            for col_nb, tile in enumerate(row):
-                cart_x = row_nb * TILEWIDTH_HALF * self.game.coef
-                cart_y = col_nb * TILEHEIGHT_HALF * self.game.coef
-                iso_x = (cart_x - cart_y) 
-                iso_y = (cart_x + cart_y)/2
-                centered_x = self.game.ecran.get_rect().centerx + iso_x
-                centered_y = self.game.ecran.get_rect().centery/2 + iso_y
-
+                id  = (row_nb, col_nb)
+                pos = (centered_x, centered_y)
                 if tile == 1:
-                    tileImage = self.wall
-                    self.game.ecran.blit(tileImage, (centered_x, centered_y)) #display the actual tile    
+                    self.tiles[row_nb, col_nb] = Tile(self.ecran,id,pos,type=tile)
                 else:
                     pass
-                    # tileImage = self.grass
-                      
+
+    def render(self):
+        for line in self.tiles:
+            for tile in line:
+                if tile : 
+                    tile.render()
                     
         
 

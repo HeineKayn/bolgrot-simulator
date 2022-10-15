@@ -1,11 +1,8 @@
 import pygame
 from pygame import locals as const
 from constantes import *
-
-from nexus import Nexus
-from projectiles import Projectiles
-from barrieres import Barrieres
 from map import Map
+from characters import Player
 
 class Game:
     def __init__(self, ecran, clock):
@@ -13,17 +10,18 @@ class Game:
         self.clock = clock
         self.continuer = True
         self.bg = pygame.image.load(BG_TEXTURE)
-        self.map = Map(self)
-        self.coef = 1
+        self.map = Map(ecran)
+        self.player = Player(self)
     
     def prepare(self):
         pygame.key.set_repeat(1, 0)
         self.continuer = True
+        self.map.create()
     
     def update_screen(self):
-        
         self.ecran.blit(self.bg, (0, 0))
-        self.map.draw()
+        self.map.render()
+        self.player.render()
 
     def update_game(self):
         pass
@@ -31,12 +29,15 @@ class Game:
     def process_event(self, event: pygame.event):
 
         # Click Gauche
-        if event.type == const.MOUSEBUTTONUP and event.button == 1:
-            self.coef += 0.5
-
-        # Click Droit
-        if event.type == const.KEYDOWN and event.key == const.K_a:
-            pass
+        if event.type == const.KEYUP:
+            if event.key == const.K_z :
+                self.player.move(0,-1)
+            if event.key == const.K_q :
+                self.player.move(-1,0)
+            if event.key == const.K_s :
+                self.player.move(0,1)
+            if event.key == const.K_d :
+                self.player.move(1,0)
 
         if event.type == const.QUIT:
             self.continuer = False

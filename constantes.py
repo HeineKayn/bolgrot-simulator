@@ -40,3 +40,14 @@ CLIGNE_PERIODE = 30
 # --- MAP --- 
 
 MAP_SIZE = 9
+
+# --- PLAYER ---
+
+MAX_LEAP = 3
+
+# --- HUD ---
+
+PA_TEXTURE = FOLDER + 'pa.png'
+LEAP_TEXTURE = FOLDER + 'leap.png'
+HUD_MARGIN = 10
+HUD_FONT_SIZE = 70

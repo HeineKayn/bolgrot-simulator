@@ -58,6 +58,12 @@ class Player(Character):
     def __init__(self,game):
         self.sprite = pygame.image.load(PLAYER_TEXTURE)
         self.sprite = pygame.transform.scale(self.sprite,[25,50]) 
+        self.pa = 10
+        self.bigLeap = 0
         pos = game.map.getFreePos()
         game.map.getTile(pos).entity = self
         super().__init__(game,pos)
+
+    def newRound(self):
+        self.pa = 10
+        self.bigLeap = 0

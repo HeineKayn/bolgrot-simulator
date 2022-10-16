@@ -1,9 +1,4 @@
-- marcher sur ennemis
-- spawn random (et pas sur case occupé)
 - attiré vers joueur quand bouge
-- joueur peut bouger de 2 cases avc shift
-- compteur d'actions -> fait respawn quand 10
-- CD des sorts
 - glyphe pour montrer où va pop mob prochaine vague
 - Sort immobilisation (ctrl)
 - (PV ?)

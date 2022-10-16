@@ -12,6 +12,7 @@ FOLDER = 'ressources/textures/'
 BG_TEXTURE = FOLDER + 'bg.png'
 TILE_TEXTURE = FOLDER + 'ground.png'
 PLAYER_TEXTURE = FOLDER + 'iop.png'
+ENNEMY_TEXTURE = FOLDER + 'tofu.png'
 
 # --- COULEURS ---
 
@@ -38,4 +39,4 @@ CLIGNE_PERIODE = 30
 
 # --- MAP --- 
 
-MAP_SIZE = 6
+MAP_SIZE = 9

@@ -2,7 +2,7 @@ import pygame
 from pygame import locals as const
 from constantes import *
 from map import Map
-from characters import Player
+from characters import Player,Enemies
 
 class Game:
     def __init__(self, ecran, clock):
@@ -10,21 +10,28 @@ class Game:
         self.clock = clock
         self.continuer = True
         self.bg = pygame.image.load(BG_TEXTURE)
-        self.map = Map(ecran)
-        self.player = Player(self)
     
     def prepare(self):
         pygame.key.set_repeat(1, 0)
         self.continuer = True
-        self.map.create()
+        self.map = Map(self.ecran)
+        self.player = Player(self)
+        self.enemies = Enemies(self)
+        self.enemies.invoke(2)
     
     def update_screen(self):
         self.ecran.blit(self.bg, (0, 0))
         self.map.render()
+        self.enemies.render()
         self.player.render()
 
     def update_game(self):
-        pass
+        for enemy in self.enemies.list:
+            if self.player.pos == enemy.pos :
+                enemy.alive = False
+                self.enemies.list.remove(enemy)
+                del enemy
+                self.enemies.invoke(2)
     
     def process_event(self, event: pygame.event):
 
@@ -38,6 +45,7 @@ class Game:
                 self.player.move(0,1)
             if event.key == const.K_d :
                 self.player.move(1,0)
+
 
         if event.type == const.QUIT:
             self.continuer = False
